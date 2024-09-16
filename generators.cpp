@@ -1,7 +1,7 @@
 #include "generators.h"
 
 std::ofstream openFile(const std::string& filename) {
-	std::ofstream outFile(filename);
+	std::ofstream outFile(filename, std::ios::app);
 	if (!outFile) {
 		std::cerr << "Error creating file!\n";
 		return {};
@@ -51,10 +51,6 @@ void drillStop(const std::string& filename) {
 	outFile.close();
 }
 
-void setting(const std::string& filename) {
-
-}
-
 void setAbs(const std::string& filename) {
 
 }
@@ -63,6 +59,18 @@ void setInc(const std::string& filename) {
 
 }
 
-void end(const std::string& filename) {
+void begin(const std::string& filename) {
+	auto outFile = openFile(filename);
+	outFile << "%\n";
+	outFile << "O01\n";
+	outFile << "G21 (millimeter unit)\n";
+	outFile << "G90 (abs)\n";
+	outFile.close();
+}
 
+void end(const std::string& filename) {
+	auto outFile = openFile(filename);
+	outFile << "M30 (end script)\n";
+	outFile << "%";
+	outFile.close();
 }

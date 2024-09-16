@@ -14,7 +14,7 @@ void getTool(const std::string& filename, const int toolNum);
 void returnTool(const std::string& filename);
 void drillStart(const std::string& filename, const int spinSpeed);
 void drillStop(const std::string& filename);
-void setting(const std::string& filename);
 void setAbs(const std::string& filename);
 void setInc(const std::string& filename);
+void begin(const std::string& filename);
 void end(const std::string& filename);
