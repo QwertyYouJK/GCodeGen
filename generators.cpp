@@ -32,11 +32,15 @@ void spiral(const std::string& filename, const float xCen, const float yCen, con
 }
 
 void getTool(const std::string& filename, const int toolNum) {
-
+	auto outFile = openFile(filename);
+	outFile << "M06 T" << toolNum << "\n";
+	outFile.close();
 }
 
 void returnTool(const std::string& filename) {
-
+	auto outFile = openFile(filename);
+	outFile << "M06 T0\n";
+	outFile.close();
 }
 
 void drillStart(const std::string& filename, const int spinSpeed) {
