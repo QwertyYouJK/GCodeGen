@@ -59,7 +59,7 @@ void beginSettings(const std::string& filename) {
 	std::ofstream outFile(filename);
 	outFile << "%\n";
 	outFile << "O01\n";
-	outFile << "G21 (millimeter unit)\n";
+	outFile << "G21 (micron unit (add .0 for milli))\n";
 	outFile << "G90 (abs)\n";
 	outFile.close();
 }
