@@ -27,7 +27,7 @@ void move(const std::string& filename, const float xPos, const float yPos, const
 	outFile.close();
 }
 
-void rotate(const std::string& filename, const float xCen, const float yCen, const float zDown, const float feedRate) {
+void spiral(const std::string& filename, const float xCen, const float yCen, const float zDown, const float feedRate) {
 
 }
 
@@ -39,12 +39,16 @@ void returnTool(const std::string& filename) {
 
 }
 
-void drillStart(const std::string& filename, const float spinSpeed) {
-
+void drillStart(const std::string& filename, const int spinSpeed) {
+	auto outFile = openFile(filename);
+	outFile << "M03 S" << spinSpeed << "\n";
+	outFile.close();
 }
 
 void drillStop(const std::string& filename) {
-
+	auto outFile = openFile(filename);
+	outFile << "M05\n";
+	outFile.close();
 }
 
 void setting(const std::string& filename) {
