@@ -11,7 +11,8 @@ std::ofstream appendFile(const std::string& filename) {
 
 void move(const std::string& filename, const float xPos, const float yPos, const float zPos) {
 	auto outFile = appendFile(filename);
-	outFile << "G00 " << "X" << (int)(xPos * 1000) << " Y" << (int)(yPos * 1000) << " Z" << (int)(zPos * 1000) << "\n";
+	outFile << "G00 " << "X" << (int)(xPos * 1000) << " Y" << (int)(yPos * 1000) << " Z" << (int)(zPos * 1000);
+	outFile << " (move to coords: " << xPos << ", " << yPos << ", " << zPos << ")\n";
 	outFile.close();
 }
 

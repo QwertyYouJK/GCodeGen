@@ -7,8 +7,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int xPos = atoi(argv[1]);
-    int yPos = atoi(argv[2]);
+    float xPos = atof(argv[1]);
+    float yPos = atof(argv[2]);
     std::string filename = "coords.nc";
 
     beginSettings(filename);
