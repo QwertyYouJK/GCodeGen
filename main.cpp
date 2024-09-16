@@ -14,4 +14,6 @@ int main(int argc, char* argv[]) {
     beginSettings(filename);
     move(filename, xPos, yPos, 50);
     endFile(filename);
+
+    std::cout << "G code file generated successfully\n";
 }
