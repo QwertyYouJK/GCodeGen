@@ -1,6 +1,6 @@
 #include "generators.h"
 
-int main() {
+int main(int argc, char* argv[]) {
 	std::vector<std::pair<int, int>> coordinates;
 	std::string input;
 	std::string filename = "coordinates.custom";
