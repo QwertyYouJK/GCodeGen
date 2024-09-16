@@ -9,25 +9,13 @@ std::ofstream openFile(const std::string& filename) {
 	return outFile;
 }
 
-void move(const std::string& filename, const float xPos, const float yPos) {
+void move(const std::string& filename, const float xPos, const float yPos, const float zPos) {
 	auto outFile = openFile(filename);
-	outFile << "G00 " << "X" << xPos << ".0 " << "Y" << yPos << ".0\n";
+	outFile << "G00 " << "X" << (int)(xPos * 1000) << " Y" << (int)(yPos * 1000) << " Z" << (int)(zPos * 1000) << "\n";
 	outFile.close();
 }
 
-void move(const std::string& filename, const float zPos) {
-	auto outFile = openFile(filename);
-	outFile << "G00 " << "Z" << zPos << ".0\n";
-	outFile.close();
-}
-
-void move(const std::string& filename, const float xPos, const float yPos, const float feedRate) {
-	auto outFile = openFile(filename);
-	outFile << "G01 " << "X" << xPos << ".0 " << "Y" << yPos << ".0" << "F" << feedRate << ".0\n";
-	outFile.close();
-}
-
-void spiral(const std::string& filename, const float xCen, const float yCen, const float zDown, const float feedRate) {
+void spiral(const std::string& filename, const float radius, const float zDown, const float feedRate) {
 
 }
 
