@@ -52,11 +52,15 @@ void drillStop(const std::string& filename) {
 }
 
 void setAbs(const std::string& filename) {
-
+	auto outFile = openFile(filename);
+	outFile << "G90 (absolute)\n";
+	outFile.close();
 }
 
 void setInc(const std::string& filename) {
-
+	auto outFile = openFile(filename);
+	outFile << "G91 (relative)\n";
+	outFile.close();
 }
 
 void begin(const std::string& filename) {
