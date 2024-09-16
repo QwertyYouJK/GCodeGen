@@ -1,11 +1,9 @@
 #include "generators.h"
 
-int main() {
-    int argc = 3;
-    const char* argv[] = { "program.exe", "200", "200" };
-    
-    if (argc == 1) {
-        std::cout << "No command-line arguments passed.\n";
+int main(int argc, char* argv[]) {
+  
+    if (argc != 3) {
+        std::cout << "Command: [./program.exe] [xPos] [yPos]\n";
         return 1;
     }
 
