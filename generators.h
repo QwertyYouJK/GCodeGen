@@ -5,7 +5,7 @@
 #include <sstream>
 #include <fstream>
 
-std::ofstream openFile(const std::string& filename);
+std::ofstream appendFile(const std::string& filename);
 void move(const std::string& filename, const float xPos, const float yPos, const float zPos);
 void spiral(const std::string& filename, const float radius, const float zDown, const float feedRate);
 void getTool(const std::string& filename, const int toolNum);
@@ -14,5 +14,5 @@ void drillStart(const std::string& filename, const int spinSpeed);
 void drillStop(const std::string& filename);
 void setAbs(const std::string& filename);
 void setInc(const std::string& filename);
-void begin(const std::string& filename);
-void end(const std::string& filename);
+void beginSettings(const std::string& filename);
+void endFile(const std::string& filename);
