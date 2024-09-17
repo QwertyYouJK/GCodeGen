@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
         endFile(filename);
     }
     else if (command == "drill-screws") {
-        // read coordinates from coords file
+        // read coordinates from a coords file
 
         // write G code file
         beginSettings(filename);
