@@ -16,3 +16,6 @@ void setAbs(const std::string& filename);
 void setInc(const std::string& filename);
 void beginSettings(const std::string& filename);
 void endFile(const std::string& filename);
+void wait(const std::string& filename, const int time);
+std::vector<std::pair<float, float>> readCoords();
+float readHeight();
