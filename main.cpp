@@ -18,6 +18,7 @@ int main(int argc, char* argv[]) {
         move(filename, 0, MIN_Y, 0);
         wait(filename, 10);
         endFile(filename);
+        std::cout << "G code file generated successfully\n";
     }
     else if (command == "drill-screws") {
         // read coordinates from a coords file
@@ -28,9 +29,11 @@ int main(int argc, char* argv[]) {
         // put for loop for all screws
         drillStop(filename);
         endFile(filename);
+        std::cout << "G code file generated successfully\n";
     }
-
-    std::cout << "G code file generated successfully\n";
+    else {
+        std::cout << "Command not recognised! Try: move-table/drill-screws\n";
+    }
 }
 
 /*
