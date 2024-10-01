@@ -74,14 +74,14 @@ void endFile(const std::string& filename) {
 
 void wait(const std::string& filename, const int time) {
 	auto outFile = appendFile(filename);
-	outFile << "G04 X" << time << '.0\n';
+	outFile << "G04 X" << time << ".0\n";
 	outFile.close();
 }
 
-std::vector<std::pair<float, float>> readCoords() {
+//std::vector<std::pair<float, float>> readCoords() {
+//
+//}
 
-}
-
-float readHeight() {
-
-}
+//float readHeight() {
+//
+//}
