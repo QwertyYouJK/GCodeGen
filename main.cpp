@@ -2,6 +2,7 @@
 
 constexpr float MIN_Y = -165.0;
 constexpr int RPM = 4500;
+constexpr float MAX_Z = 86.5;
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
@@ -21,18 +22,38 @@ int main(int argc, char* argv[]) {
         std::cout << "G code file generated successfully\n";
     }
     else if (command == "drill-screws") {
-        // read coordinates from a coords file
+        try {
+            // read coordinates from a coords file
+            auto coords = readCoords();
+            // write G code file
+            beginSettings(filename);
+            //drillStart(filename, RPM);
+            // loop drill through all screws
+            for (const auto i : coords) {
+                move(filename, i.first, i.second, MAX_Z);
+                wait(filename, 2);
+            }
+            //drillStop(filename);
+            endFile(filename);
+            std::cout << "G code file generated successfully\n";
 
-        // write G code file
-        beginSettings(filename);
-        drillStart(filename, RPM);
-        // put for loop for all screws
-        drillStop(filename);
-        endFile(filename);
-        std::cout << "G code file generated successfully\n";
+        }
+        catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+        }
+    }
+    else if (command == "test") {
+        try {
+            auto coords = readCoords();
+
+
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+        }
+        
     }
     else {
-        std::cout << "Command not recognised! Try: move-table/drill-screws\n";
+        std::cout << "Command not recognised! Try: move-table/drill-screws/test\n";
     }
 }
 
