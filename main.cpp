@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
             auto coords = readCoords();
             // write G code file
             beginSettings(filename);
-            // loop drill through all screws
+            // loop drill through all screw coords
             for (const auto i : coords) {
                 move(filename, i.first, i.second, 25);
                 drillStart(filename, 8000);
@@ -37,7 +37,6 @@ int main(int argc, char* argv[]) {
                 newLine(filename);
                 setAbs(filename);
             }
-            //drillStop(filename);
             endFile(filename);
             std::cout << "G code file generated successfully\n";
 

@@ -118,8 +118,12 @@ std::vector<std::pair<double, double>> readCoords() {
 
 				// Extract the two numbers
 				if (iss >> num1 >> num2) {
+					// Force 2 dp
+					double num1_2dp = std::round(num1 * 100.0) / 100.0;
+					double num2_2dp = std::round(num2 * 100.0) / 100.0;
+
 					// Store the numbers as a pair
-					std::pair<double, double> numbers(num1, num2);
+					std::pair<double, double> numbers(num1_2dp, num2_2dp);
 
 					// Output the pair
 					std::cout << "Pair: (" << numbers.first << ", " << numbers.second << ")" << std::endl;
