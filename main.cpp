@@ -27,11 +27,15 @@ int main(int argc, char* argv[]) {
             auto coords = readCoords();
             // write G code file
             beginSettings(filename);
-            //drillStart(filename, RPM);
             // loop drill through all screws
             for (const auto i : coords) {
-                move(filename, i.first, i.second, MAX_Z);
-                wait(filename, 2);
+                move(filename, i.first, i.second, 25);
+                drillStart(filename, 8000);
+                setInc(filename);
+                drill(filename, 3, 0.5, 75);
+                drillStop(filename);
+                newLine(filename);
+                setAbs(filename);
             }
             //drillStop(filename);
             endFile(filename);

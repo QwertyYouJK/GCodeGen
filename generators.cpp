@@ -16,8 +16,18 @@ void move(const std::string& filename, const float xPos, const float yPos, const
 	outFile.close();
 }
 
-void spiral(const std::string& filename, const float radius, const float zDown, const float feedRate) {
-
+void drill(const std::string& filename, const float radius, const float zDown, const float feedRate) {
+	auto outFile = appendFile(filename);
+	// move offset
+	outFile << "G00 X-3000\n";
+	// set centre 3mm to the right and helical down
+	outFile << "(Spin and move 0.5mm down each step)\n";
+	for (int i = 0; i < 8; i++) {
+		outFile << "G02 I" << (int)(radius * 1000) << " Z" << (int)(zDown * -1000) << " F" << (int)(feedRate * 1000) << "\n";
+	}
+	// move back up
+	outFile << "G00 Z100.0\n";
+	outFile.close();
 }
 
 void getTool(const std::string& filename, const int toolNum) {
@@ -34,13 +44,14 @@ void returnTool(const std::string& filename) {
 
 void drillStart(const std::string& filename, const int spinSpeed) {
 	auto outFile = appendFile(filename);
-	outFile << "M03 S" << spinSpeed << "\n";
+	outFile << "M03 S" << spinSpeed;
+	outFile << "\t\t\t(Start spindle with " << spinSpeed << " rpm)\n";
 	outFile.close();
 }
 
 void drillStop(const std::string& filename) {
 	auto outFile = appendFile(filename);
-	outFile << "M05\n";
+	outFile << "M05 \t\t\t\t(Stop spindle)\n";
 	outFile.close();
 }
 
@@ -69,6 +80,12 @@ void endFile(const std::string& filename) {
 	auto outFile = appendFile(filename);
 	outFile << "M30 \t\t\t\t(end)\n";
 	outFile << "%";
+	outFile.close();
+}
+
+void newLine(const std::string& filename) {
+	auto outFile = appendFile(filename);
+	outFile << "\n";
 	outFile.close();
 }
 
