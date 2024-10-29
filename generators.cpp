@@ -19,11 +19,13 @@ void move(const std::string& filename, const float xPos, const float yPos, const
 void drill(const std::string& filename, const float radius, const float zDown, const float feedRate) {
 	auto outFile = appendFile(filename);
 	// move offset
-	outFile << "G00 X-3000\n";
+	outFile << "G00 X-1500\n";
 	// set centre 3mm to the right and helical down
 	outFile << "(Spin and move 0.5mm down each step)\n";
-	for (int i = 0; i < 8; i++) {
-		outFile << "G02 I" << (int)(radius * 1000) << " Z" << (int)(zDown * -1000) << " F" << (int)(feedRate * 1000) << "\n";
+	for (int i = 0; i < zDown; i++) {
+		outFile << "G02 I" << (int)(radius * 1000) << " Z-500 F" << (int)(feedRate * 1000) << "\n";
+		outFile << "G02 I" << (int)(radius * 1000) << " Z-500 F" << (int)(feedRate * 1000) << "\n";
+		outFile << "\n";
 	}
 	// move back up
 	outFile << "G00 Z100.0\n";
@@ -138,6 +140,7 @@ std::vector<std::pair<double, double>> readCoords() {
 		}
 		else {
 			std::cerr << "Could not open the file in the new path." << std::endl;
+			return {};
 		}
 	}
 	return coords;

@@ -22,28 +22,26 @@ int main(int argc, char* argv[]) {
         std::cout << "G code file generated successfully\n";
     }
     else if (command == "drill-screws") {
-        try {
-            // read coordinates from a coords file
-            auto coords = readCoords();
-            // write G code file
-            beginSettings(filename);
-            // loop drill through all screw coords
-            for (const auto i : coords) {
-                move(filename, i.first, i.second, 25);
-                drillStart(filename, 8000);
-                setInc(filename);
-                drill(filename, 3, 0.5, 75);
-                drillStop(filename);
-                newLine(filename);
-                setAbs(filename);
-            }
-            endFile(filename);
-            std::cout << "G code file generated successfully\n";
-
+        // read coordinates from a coords file
+        auto coords = readCoords();
+        if (coords.empty()) {
+            return 1;
         }
-        catch (const std::exception& e) {
-            std::cerr << "Error: " << e.what() << std::endl;
+        // write G code file
+        beginSettings(filename);
+        // loop drill through all screw coords
+        for (const auto i : coords) {
+            move(filename, i.first, i.second, 1000);
+            move(filename, i.first, i.second, 13);
+            drillStart(filename, 4500);
+            setInc(filename);
+            drill(filename, 1.5, 3, 20);
+            drillStop(filename);
+            newLine(filename);
+            setAbs(filename);
         }
+        endFile(filename);
+        std::cout << "G code file generated successfully\n";
     }
     else if (command == "test") {
         try {

@@ -13,6 +13,9 @@ std::ofstream appendFile(const std::string& filename);
 void move(const std::string& filename, const float xPos, const float yPos, const float zPos);
 
 // Enter coords in mm
+// radius is radius of screw head
+// zDown is go down how many mm
+// feedRate is how fast you spin
 void drill(const std::string& filename, const float radius, const float zDown, const float feedRate);
 
 void getTool(const std::string& filename, const int toolNum);
