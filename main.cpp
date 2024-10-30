@@ -25,6 +25,7 @@ int main(int argc, char* argv[]) {
         // read coordinates from a coords file
         auto coords = readCoords();
         if (coords.empty()) {
+            std::cout << "No screws detected!\n";
             return 1;
         }
         // write G code file
