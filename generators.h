@@ -7,6 +7,8 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
+constexpr float SCREW_HEAD_RADIUS = 1.5;
+
 std::ofstream appendFile(const std::string& filename);
 
 // Enter coords in mm

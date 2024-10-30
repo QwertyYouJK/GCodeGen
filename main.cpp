@@ -32,10 +32,10 @@ int main(int argc, char* argv[]) {
         // loop drill through all screw coords
         for (const auto i : coords) {
             move(filename, i.first, i.second, 1000);
-            move(filename, i.first, i.second, 13);
+            move(filename, i.first, i.second, 13); // change number to right above HDD
             drillStart(filename, 4500);
             setInc(filename);
-            drill(filename, 1.5, 3, 20);
+            drill(filename, SCREW_HEAD_RADIUS, 3, 20); // change second number to how deep to drill, third number for feedRate
             drillStop(filename);
             newLine(filename);
             setAbs(filename);
