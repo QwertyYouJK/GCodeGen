@@ -1,4 +1,4 @@
-#include "generators.h"
+#include "GCodeGen.h"
 
 std::ofstream appendFile(const std::string& filename) {
 	std::ofstream outFile(filename, std::ios::app);
@@ -16,8 +16,10 @@ void move(const std::string& filename, const float xPos, const float yPos, const
 	outFile.close();
 }
 
-void drill(const std::string& filename, const float radius, const float zDown, const float feedRate) {
+void drill(const std::string& filename, const float radius, const float zDown, const float feedRate, screwType op) {
 	auto outFile = appendFile(filename);
+	// check which screw type it is (far/middle/close screw)
+
 	// move offset
 	outFile << "G00 X-1500\n";
 	// set centre 3mm to the right and helical down

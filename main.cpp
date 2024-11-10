@@ -1,8 +1,9 @@
-#include "generators.h"
+#include "GCodeGen.h"
 
 constexpr float MIN_Y = -165.0;
 constexpr int RPM = 4500;
 constexpr float MAX_Z = 86.5;
+constexpr float SCREW_HEAD_RADIUS = 1.5;
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
@@ -32,11 +33,24 @@ int main(int argc, char* argv[]) {
         beginSettings(filename);
         // loop drill through all screw coords
         for (const auto i : coords) {
+            screwType opt;
+            if (i.second >= 165.0) {
+                std::cout << "Far screw\n";
+                opt = FAR;
+            }
+            else if (i.second < 165.0 && i.second > 125) {
+                std::cout << "Middle screw\n";
+                opt = MIDDLE;
+            }
+            else if (i.second <= 125.0) {
+                std::cout << "Close screw\n";
+                opt = CLOSE;
+            }
             move(filename, i.first, i.second, 1000);
             move(filename, i.first, i.second, 13); // change number to right above HDD
-            drillStart(filename, 4500);
+            drillStart(filename, RPM);
             setInc(filename);
-            drill(filename, SCREW_HEAD_RADIUS, 3, 20); // change second number to how deep to drill, third number for feedRate
+            drill(filename, SCREW_HEAD_RADIUS, 3, 20, opt); // change first number to how deep to drill, third number for feedRate
             drillStop(filename);
             newLine(filename);
             setAbs(filename);
