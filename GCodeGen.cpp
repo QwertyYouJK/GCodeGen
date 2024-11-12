@@ -19,17 +19,53 @@ void move(const std::string& filename, const float xPos, const float yPos, const
 void drill(const std::string& filename, const float radius, const float zDown, const float feedRate, screwType op) {
 	auto outFile = appendFile(filename);
 	// check which screw type it is (far/middle/close screw)
+	switch(op) {
+	case FAR:
+		for (int i = 0; i < zDown; i++) {
+			// move off centre and go down 1
+			outFile << "(Move away to the side)\n";
+			outFile << "G02 Y4000 F" << (int)(feedRate * 1000) << "\n";
+			outFile << "G02 Z-1000 F" << (int)(feedRate * 1000) << "\n";
 
-	// move offset
-	outFile << "G00 X-1500\n";
-	// set centre 3mm to the right and helical down
-	outFile << "(Spin and move 0.5mm down each step)\n";
-	for (int i = 0; i < zDown; i++) {
-		outFile << "G02 I" << (int)(radius * 1000) << " Z-500 F" << (int)(feedRate * 1000) << "\n";
-		outFile << "G02 I" << (int)(radius * 1000) << " Z-500 F" << (int)(feedRate * 1000) << "\n";
-		outFile << "\n";
+			// circle and move closer every step
+			outFile << "(Circle and move closer every step)\n";
+			for (int i = 0; i < 8; i++) {
+				outFile << "G02 J-500 F" << (int)(feedRate * 1000) << "\n";
+				outFile << "G02 Y-500 F" << (int)(feedRate * 1000) << "\n";
+			}
+		}
+		
+		break;
+	case MIDDLE:
+		// move offset
+		outFile << "G00 X-1500\n";
+		// set centre 3mm to the right and helical down
+		outFile << "(Spin and move 0.5mm down each step)\n";
+		for (int i = 0; i < zDown; i++) {
+			outFile << "G02 I" << (int)(radius * 1000) << " Z-500 F" << (int)(feedRate * 1000) << "\n";
+			outFile << "G02 I" << (int)(radius * 1000) << " Z-500 F" << (int)(feedRate * 1000) << "\n";
+			//outFile << "\n";
+		}
+		break;
+	case CLOSE:
+		for (int i = 0; i < zDown; i++) {
+			// move off centre and go down 1
+			outFile << "(Move away to the side)\n";
+			outFile << "G02 Y-4000 F" << (int)(feedRate * 1000) << "\n";
+			outFile << "G02 Z-1000 F" << (int)(feedRate * 1000) << "\n";
+
+			// circle and move closer every step
+			outFile << "(Circle and move closer every step)\n";
+			for (int i = 0; i < 8; i++) {
+				outFile << "G02 J500 F" << (int)(feedRate * 1000) << "\n";
+				outFile << "G02 Y500 F" << (int)(feedRate * 1000) << "\n";
+			}
+		}
+		break;
 	}
+	
 	// move back up
+	outFile << "(Finish one screw)\n";
 	outFile << "G00 Z100.0\n";
 	outFile.close();
 }

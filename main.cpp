@@ -31,26 +31,30 @@ int main(int argc, char* argv[]) {
         }
         // write G code file
         beginSettings(filename);
+        double feedRate;
         // loop drill through all screw coords
         for (const auto i : coords) {
             screwType opt;
             if (i.second >= 165.0) {
                 std::cout << "Far screw\n";
                 opt = FAR;
+                feedRate = 97.0;
             }
             else if (i.second < 165.0 && i.second > 125) {
                 std::cout << "Middle screw\n";
                 opt = MIDDLE;
+                feedRate = 20.0;
             }
             else if (i.second <= 125.0) {
                 std::cout << "Close screw\n";
                 opt = CLOSE;
+                feedRate = 97.0;
             }
-            move(filename, i.first, i.second, 1000);
-            move(filename, i.first, i.second, 13); // change number to right above HDD
+            move(filename, i.first, i.second, 500);
+            move(filename, i.first, i.second, 50); // change number to right above HDD
             drillStart(filename, RPM);
             setInc(filename);
-            drill(filename, SCREW_HEAD_RADIUS, 3, 20, opt); // change first number to how deep to drill, third number for feedRate
+            drill(filename, SCREW_HEAD_RADIUS, 3, feedRate, opt); // change first number to how deep to drill, third number for feedRate
             drillStop(filename);
             newLine(filename);
             setAbs(filename);
