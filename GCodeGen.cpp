@@ -21,17 +21,17 @@ void drill(const std::string& filename, const float radius, const float zDown, c
 	// check which screw type it is (far/middle/close screw)
 	switch(op) {
 	case FAR:
-		for (int i = 0; i < zDown; i++) {
+		for (int i = 0; i < zDown * 4; i++) {
 			// move off centre and go down 1
 			outFile << "(Move away to the side)\n";
-			outFile << "G02 Y4000 F" << (int)(feedRate * 1000) << "\n";
-			outFile << "G02 Z-1000 F" << (int)(feedRate * 1000) << "\n";
+			outFile << "G01 Y8000 F" << (int)(feedRate * 1000) << "\n";
+			outFile << "G01 Z-250 F" << (int)(feedRate * 1000) << "\n";
 
 			// circle and move closer every step
 			outFile << "(Circle and move closer every step)\n";
 			for (int i = 0; i < 8; i++) {
-				outFile << "G02 J-500 F" << (int)(feedRate * 1000) << "\n";
-				outFile << "G02 Y-500 F" << (int)(feedRate * 1000) << "\n";
+				outFile << "G02 X0 Y0 J-2500 F" << (int)(feedRate * 1000) << "\n";
+				outFile << "G01 Y-1000 F" << (int)(feedRate * 1000) << "\n";
 			}
 		}
 		
@@ -41,24 +41,24 @@ void drill(const std::string& filename, const float radius, const float zDown, c
 		outFile << "G00 X-1500\n";
 		// set centre 3mm to the right and helical down
 		outFile << "(Spin and move 0.5mm down each step)\n";
-		for (int i = 0; i < zDown; i++) {
-			outFile << "G02 I" << (int)(radius * 1000) << " Z-500 F" << (int)(feedRate * 1000) << "\n";
-			outFile << "G02 I" << (int)(radius * 1000) << " Z-500 F" << (int)(feedRate * 1000) << "\n";
+		for (int i = 0; i < zDown * 2; i++) {
+			outFile << "G02 I" << (int)(radius * 1000) << " Z-250 F" << (int)(feedRate * 1000) << "\n";
+			outFile << "G02 I" << (int)(radius * 1000) << " Z-250 F" << (int)(feedRate * 1000) << "\n";
 			//outFile << "\n";
 		}
 		break;
 	case CLOSE:
-		for (int i = 0; i < zDown; i++) {
+		for (int i = 0; i < zDown * 4; i++) {
 			// move off centre and go down 1
 			outFile << "(Move away to the side)\n";
-			outFile << "G02 Y-4000 F" << (int)(feedRate * 1000) << "\n";
-			outFile << "G02 Z-1000 F" << (int)(feedRate * 1000) << "\n";
+			outFile << "G01 Y-8000 F" << (int)(feedRate * 1000) << "\n";
+			outFile << "G01 Z-250 F" << (int)(feedRate * 1000) << "\n";
 
 			// circle and move closer every step
 			outFile << "(Circle and move closer every step)\n";
 			for (int i = 0; i < 8; i++) {
-				outFile << "G02 J500 F" << (int)(feedRate * 1000) << "\n";
-				outFile << "G02 Y500 F" << (int)(feedRate * 1000) << "\n";
+				outFile << "G02 X0 Y0 J2500 F" << (int)(feedRate * 1000) << "\n";
+				outFile << "G01 Y1000 F" << (int)(feedRate * 1000) << "\n";
 			}
 		}
 		break;
