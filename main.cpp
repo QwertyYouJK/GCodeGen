@@ -1,20 +1,22 @@
 #include "GCodeGen.h"
 
-constexpr float MIN_Y = -165.0;
+constexpr float MIN_Y = 300.0;
 constexpr int RPM = 4500;
-constexpr float MAX_Z = 86.5;
+constexpr float MAX_Z = 300;
 constexpr float SCREW_HEAD_RADIUS = 1.5;
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         std::cout << "Arguments: [./program.exe] [command]\n";
+        std::cout << "command: move-table/drill-screws\n";
         return 1;
     }
     
     std::string command = argv[1];
     std::string filename = "coords.nc";
-
+    
     if (command == "move-table") {
+        // move table to the front to take picture
         beginSettings(filename);
         setInc(filename);
         move(filename, 0, MIN_Y, 0);
@@ -51,18 +53,23 @@ int main(int argc, char* argv[]) {
                 feedRate = 150.0;
             }
             move(filename, i.first, i.second, 500);
-            move(filename, i.first, i.second, 12); // change number to right above HDD
+            move(filename, i.first, i.second, 50); // change number to right above screw
             drillStart(filename, RPM);
             setInc(filename);
-            drill(filename, SCREW_HEAD_RADIUS, 3, feedRate, opt); // change first number to how deep to drill, third number for feedRate
+            drill(filename, SCREW_HEAD_RADIUS, 2.5, feedRate, opt); // change number to how deep to drill (put this in increments of 0.5)
             drillStop(filename);
             newLine(filename);
             setAbs(filename);
         }
+        setAbs(filename);
+        // move to Y=170 and wait; run gripper
+        move(filename, 0, 170, 300);
+        wait(filename, 600);
         endFile(filename);
         std::cout << "G code file generated successfully\n";
     }
     else if (command == "test") {
+        // for testing
         try {
             auto coords = readCoords();
 

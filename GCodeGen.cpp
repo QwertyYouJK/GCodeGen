@@ -1,5 +1,6 @@
 #include "GCodeGen.h"
 
+// Create std::ofstream for appending file
 std::ofstream appendFile(const std::string& filename) {
 	std::ofstream outFile(filename, std::ios::app);
 	if (!outFile) {
@@ -9,6 +10,8 @@ std::ofstream appendFile(const std::string& filename) {
 	return outFile;
 }
 
+// Generates move command (G00) in .nc code file.
+// Input: filename, xPos (in mm), yPos (in mm), zPos (in mm)
 void move(const std::string& filename, const float xPos, const float yPos, const float zPos) {
 	auto outFile = appendFile(filename);
 	outFile << "G00 " << "X" << (int)(xPos * 1000) << " Y" << (int)(yPos * 1000) << " Z" << (int)(zPos * 1000);
@@ -16,6 +19,8 @@ void move(const std::string& filename, const float xPos, const float yPos, const
 	outFile.close();
 }
 
+// Generates all the lines of G code for drilling in .nc code file.
+// Input: filename, radius (screw radius), zDown (how deep to mill; in mm), feedRate (in mm/min), op (position of screw; screwType)
 void drill(const std::string& filename, const float radius, const float zDown, const float feedRate, screwType op) {
 	auto outFile = appendFile(filename);
 	// check which screw type it is (far/middle/close screw)
@@ -70,18 +75,24 @@ void drill(const std::string& filename, const float radius, const float zDown, c
 	outFile.close();
 }
 
+// Generate line to get specific tool bit (M06)
+// Input: filename, toolNum (tool number)
 void getTool(const std::string& filename, const int toolNum) {
 	auto outFile = appendFile(filename);
 	outFile << "M06 T" << toolNum << "\n";
 	outFile.close();
 }
 
+// Generate line to return tool bit (M06 T0)
+// Input: filename
 void returnTool(const std::string& filename) {
 	auto outFile = appendFile(filename);
 	outFile << "M06 T0\n";
 	outFile.close();
 }
 
+// Generate line to start spindle (M03) with specific spin rate
+// Input: filename, spinSpeed (in rpm)
 void drillStart(const std::string& filename, const int spinSpeed) {
 	auto outFile = appendFile(filename);
 	outFile << "M03 S" << spinSpeed;
@@ -89,24 +100,32 @@ void drillStart(const std::string& filename, const int spinSpeed) {
 	outFile.close();
 }
 
+// Generate line to stop spindle (M05)
+// Input: filename
 void drillStop(const std::string& filename) {
 	auto outFile = appendFile(filename);
 	outFile << "M05 \t\t\t\t(Stop spindle)\n";
 	outFile.close();
 }
 
+// Generate line to set coord values to absolute (G90)
+// Input: filename
 void setAbs(const std::string& filename) {
 	auto outFile = appendFile(filename);
 	outFile << "G90 \t\t\t\t(absolute)\n";
 	outFile.close();
 }
 
+// Generate line to set coord values to be incremental (G91)
+// Input: filename
 void setInc(const std::string& filename) {
 	auto outFile = appendFile(filename);
 	outFile << "G91 \t\t\t\t(relative)\n";
 	outFile.close();
 }
 
+// Generate beginning lines of the .nc file
+// Input: filename
 void beginSettings(const std::string& filename) {
 	std::ofstream outFile(filename);
 	outFile << "%\n";
@@ -116,6 +135,8 @@ void beginSettings(const std::string& filename) {
 	outFile.close();
 }
 
+// Generate ending lines of the .nc file
+// Input: filename
 void endFile(const std::string& filename) {
 	auto outFile = appendFile(filename);
 	outFile << "M30 \t\t\t\t(end)\n";
@@ -123,18 +144,23 @@ void endFile(const std::string& filename) {
 	outFile.close();
 }
 
+// Generate a new line in the .nc file
+// Input: filename
 void newLine(const std::string& filename) {
 	auto outFile = appendFile(filename);
 	outFile << "\n";
 	outFile.close();
 }
 
+// Generate wait line (G04) with specified time in second
+// Input: filename, time (in sec)
 void wait(const std::string& filename, const int time) {
 	auto outFile = appendFile(filename);
 	outFile << "G04 X" << time << ".0 \t\t\t(wait)\n";
 	outFile.close();
 }
 
+// Read from screwCoords.txt and output a vector with the coordinates
 std::vector<std::pair<double, double>> readCoords() {
 	std::vector<std::pair<double, double>> coords;
 	auto currentPath = fs::current_path();
@@ -183,7 +209,3 @@ std::vector<std::pair<double, double>> readCoords() {
 	}
 	return coords;
 }
-
-//float readHeight() {
-//
-//}
